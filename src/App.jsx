@@ -1,41 +1,41 @@
 import React from "react";
-import "./App.css"
-import dataBase from "./lib/data"
+import "./App.css";
+import request from "./components/request/request";
+import Users from "./components/users/users";
+import { Routes , Route } from "react-router-dom"
+import LocalUser from "./components/users/local-user-page/Local-user"
+import Posts from "./components/posts/Posts";
+import Comments from "./components/posts/comments/Comments";
+import Albums from "./components/albums/albums";
+import Photos from "./components/albums/photos/photos";
 
-class App extends React.Component{
+class App extends React.Component
+{
+  constructor(){
+    super()
+    this.state = {
+      users: []
+    }
+  }
+
+  componentDidMount(){
+    request("https://jsonplaceholder.typicode.com/users", "GET", (response) => {
+      this.setState({
+        users: response
+      })
+    })
+  }
+
   render(){
-    const users = dataBase.users
-
-    return <div className="container">
-      <div className="user-container">
-        {users.map( user => {
-          return <div className="info-container" key={user.id}>
-            <div className="user-decoration">
-              <h4><strong>Name:</strong></h4><h4>{user.name}</h4>
-            </div>
-            
-            <div className="user-decoration">
-              <h4><strong>Email:</strong></h4><h4>{user.email}</h4>
-            </div>
-
-            <div className="user-decoration">
-              <h4><strong>City:</strong></h4><h4>{user.address.city}</h4>
-            </div>
-
-            <div className="user-decoration">
-              <h4><strong>Phone:</strong></h4><h4>{user.phone}</h4>
-            </div>
-
-            <div className="user-decoration">
-              <h4><strong>Webside:</strong></h4><h4>{user.website}</h4>
-            </div>
-
-            <div className="user-decoration">
-              <h4><strong>Company:</strong></h4><h4>{user.company.name}</h4>
-            </div>
-          </div>
-        })}
-      </div>
+    return <div>
+      <Routes>
+        <Route path="/" element={<Users users={this.state.users}/>}/>
+        <Route path="/local-page" element={<LocalUser/>}/>
+        <Route path="/posts" element={<Posts/>}/>
+        <Route path="/comments" element={<Comments/>}/>
+        <Route path="/albums" element={<Albums/>}/>
+        <Route path="/photos" element={<Photos/>}/>
+      </Routes>
     </div>
   }
 }

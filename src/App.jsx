@@ -1,5 +1,5 @@
-import WeatherForecast from "./components/weather-info/weather-forecast";
-import WeatherContainer from "./components/weather-container";
+import WeatherForecast from "./components/common/weather-info/index";
+import WeatherContainer from "./components/common/index";
 
 export default function App() {
 
